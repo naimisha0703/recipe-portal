@@ -5,7 +5,13 @@
 // the TIDB_* variables exposed by Vercel's TiDB Cloud integration.
 define('DB_HOST', getenv('DB_HOST') ?: getenv('TIDB_HOST') ?: 'localhost');
 define('DB_PORT', getenv('DB_PORT') ?: getenv('TIDB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: getenv('TIDB_DATABASE') ?: 'recipe_portal');
+$dbName = getenv('DB_NAME') ?: getenv('TIDB_DATABASE') ?: 'recipe_portal';
+// TiDB Cloud's Vercel integration defaults its database variable to `sys`,
+// which is a protected system schema. The app schema is provisioned in `test`.
+if ($dbName === 'sys' && getenv('TIDB_HOST')) {
+    $dbName = 'test';
+}
+define('DB_NAME', $dbName);
 define('DB_USER', getenv('DB_USER') ?: getenv('TIDB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: getenv('TIDB_PASSWORD') ?: '');
 const SITE_NAME = 'Recipe Sharing Portal';
