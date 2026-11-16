@@ -13,7 +13,7 @@ The local database defaults are `localhost`, database `recipe_portal`, user `roo
 
 ## Deploy to Vercel
 
-`Dockerfile.vercel` packages PHP with FrankenPHP for Vercel's container runtime. A hosted MySQL server is still required: set `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` in the Vercel project's environment variables, then import `schema.sql` into that database. The schema also creates the `app_sessions` table used to share login sessions across instances.
+`Dockerfile.vercel` packages PHP with FrankenPHP for Vercel's container runtime. A hosted MySQL-compatible server is still required. You can set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASS` in Vercel, or connect the TiDB Cloud integration, which provides `TIDB_HOST`, `TIDB_PORT`, `TIDB_USER`, `TIDB_PASSWORD`, and `TIDB_DATABASE`. The app enables TLS certificate verification when TiDB variables are present. Import `schema.sql` into that database. The schema also creates the `app_sessions` table used to share login sessions across instances.
 
 Vercel container instances are stateless, so the app stores PHP sessions in the configured MySQL database rather than on local disk.
 

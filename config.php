@@ -1,12 +1,34 @@
 <?php
 // Recipe Sharing Portal | shared configuration and helper functions
 
-// Local XAMPP defaults; hosted deployments can provide these as environment variables.
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_NAME', getenv('DB_NAME') ?: 'recipe_portal');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
+// Local XAMPP defaults; hosted deployments can provide DB_* variables or
+// the TIDB_* variables exposed by Vercel's TiDB Cloud integration.
+define('DB_HOST', getenv('DB_HOST') ?: getenv('TIDB_HOST') ?: 'localhost');
+define('DB_PORT', getenv('DB_PORT') ?: getenv('TIDB_PORT') ?: '3306');
+define('DB_NAME', getenv('DB_NAME') ?: getenv('TIDB_DATABASE') ?: 'recipe_portal');
+define('DB_USER', getenv('DB_USER') ?: getenv('TIDB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: getenv('TIDB_PASSWORD') ?: '');
 const SITE_NAME = 'Recipe Sharing Portal';
+
+function db_connection_options(): array {
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
+
+    // TiDB Cloud Starter requires TLS. Its public certificates chain to the
+    // system CA bundle in the Vercel container.
+    if (getenv('TIDB_HOST') || getenv('DB_SSL_CA')) {
+        $options[PDO::MYSQL_ATTR_SSL_CA] = getenv('DB_SSL_CA') ?: '/etc/ssl/cert.pem';
+        $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
+    }
+
+    return $options;
+}
+
+function db_dsn(): string {
+    return 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
+}
 
 // Store sessions in MySQL so users keep their login when Vercel routes requests
 // to different or newly started container instances.
@@ -16,10 +38,10 @@ final class DatabaseSessionHandler implements SessionHandlerInterface {
     private function connection(): PDO {
         if ($this->pdo === null) {
             $this->pdo = new PDO(
-                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+                db_dsn(),
                 DB_USER,
                 DB_PASS,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+                db_connection_options()
             );
         }
         return $this->pdo;
@@ -86,9 +108,8 @@ function db(): PDO {
     if ($pdo === null) {
         try {
             $pdo = new PDO(
-                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
-                DB_USER, DB_PASS,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
+                db_dsn(),
+                DB_USER, DB_PASS, db_connection_options()
             );
         } catch (PDOException $ex) {
             http_response_code(500);
