@@ -1,9 +1,15 @@
-/* Local, lightweight food illustrations used when the original photo bundle is absent. */
-const IMG=Array.from({length:13},(_,i)=>{
-  const palettes=[['#f6d9b6','#d88946','#7a9b58'],['#f6cfcd','#cc5f67','#4c895e'],['#f2d7bd','#cf644b','#729451'],['#edc999','#d69b4e','#668d56'],['#e8d0aa','#bb5548','#65884c'],['#f4d89f','#bd8747','#789454'],['#f0c59c','#c4543c','#5e8250'],['#e9ca9d','#d39a48','#648953'],['#f3d6a1','#cf8040','#758d4b'],['#edc4a3','#b94e3e','#638a55'],['#ecc2a8','#6d493a','#a34f3c'],['#f2d5a2','#8b563a','#6b9452'],['#edc8a9','#c26d47','#758f4d']];
-  const [bg,food,leaf]=palettes[i];let pieces='';
-  for(let n=0;n<15;n++){const x=130+((i*31+n*47)%140),y=90+((i*19+n*37)%120),r=8+((n*7+i*3)%12),c=n%4===0?leaf:(n%3===0?'#f1d078':food);pieces+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`}
-  for(let n=0;n<7;n++){const x=140+((i*17+n*43)%120),y=105+((i*29+n*31)%100);pieces+=`<ellipse cx="${x}" cy="${y}" rx="9" ry="4" fill="${leaf}" transform="rotate(${n*27} ${x} ${y})"/>`}
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#c89a72"/><stop offset="1" stop-color="#8f6045"/></linearGradient><radialGradient id="plate"><stop stop-color="#fff"/><stop offset=".88" stop-color="#fffdf8"/><stop offset="1" stop-color="#ddd5c9"/></radialGradient></defs><rect width="400" height="300" fill="${bg}"/><path d="M0 42h400M0 258h400" stroke="#ffffff55" stroke-width="2"/><ellipse cx="204" cy="164" rx="147" ry="116" fill="#0002"/><circle cx="200" cy="145" r="123" fill="url(#plate)"/><circle cx="200" cy="145" r="93" fill="none" stroke="#e8e0d4" stroke-width="3"/><ellipse cx="200" cy="146" rx="75" ry="61" fill="${food}" opacity=".18"/>${pieces}<path d="M95 77c22-26 50-38 77-40" fill="none" stroke="#fff9" stroke-width="7" stroke-linecap="round"/></svg>`;
-  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-});
+const IMG=[
+  "images/01-strawberry-spinach-feta-salad.jpg",
+  "images/02-pork-steak-broccolini.jpg",
+  "images/03-creamy-tomato-soup.jpg",
+  "images/04-chickpea-cauliflower-salad.jpg",
+  "images/05-chicken-ravioli-tomato.jpg",
+  "images/06-pecan-cinnamon-waffles.jpg",
+  "images/07-paneer-butter-masala.jpg",
+  "images/08-vegetable-biryani.jpg",
+  "images/09-masala-dosa.jpg",
+  "images/10-margherita-pizza.jpg",
+  "images/11-chocolate-brownies.jpg",
+  "images/12-vegetable-fried-rice.jpg",
+  "images/13-mango-lassi.jpg"
+];

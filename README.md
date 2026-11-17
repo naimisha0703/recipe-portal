@@ -25,4 +25,4 @@ Sign in or register, then choose **My dashboard** in the navigation. It shows yo
 
 Vercel serves the static frontend. The optional JSON API in `backend/` is not connected to the deployed frontend; shared accounts and server-side persistence need a hosted database and API deployment.
 
-The original photo bundle was not included in the supplied Markdown code export, so `frontend/js/images.js` provides lightweight local plate illustrations instead of broken image references.
+The matching recipe JPEG photos are stored locally in `frontend/images/`; the site does not depend on third-party image hotlinks.
