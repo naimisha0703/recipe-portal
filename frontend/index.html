@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plan to Plate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="bgfl" aria-hidden="true"></div>
+
+<section id="auth" style="border:0;border-radius:0;margin:0">
+  <div class="slides" id="slides"></div><div class="bubbles" id="bubbles"></div><p class="cap">Fresh recipes, beautifully plated</p>
+  <div class="box" id="abox">
+    <img class="dish" id="dish" alt="">
+    <div class="lg">Plan <span>to Plate</span></div>
+    <p class="sub">Discover, share &amp; manage recipes</p>
+    <div class="tabs2"><div class="pl" id="pl"></div><button class="on" id="tl" onclick="tab(0)">Login</button><button id="tr" onclick="tab(1)">Register</button></div>
+    <div class="f hide" id="fe"><input id="em" type="email" placeholder="Email"></div>
+    <div class="f"><input id="un" placeholder="Username" autocomplete="username"></div>
+    <div class="f"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button class="eye" onclick="eyeT()" aria-label="Show password" style="font-size:.78rem;font-weight:700;color:var(--b)">Show</button></div>
+    <p class="err" id="err"></p>
+    <button class="btn" style="width:100%" id="go" onclick="submitAuth()">Login</button>
+    <button class="lnk" onclick="enter(null)">Continue as guest →</button>
+    <p class="hint">Demo account: <b>chef</b> / <b>chef123</b></p>
+  </div>
+</section>
+
+<div id="app" class="hide">
+<nav class="top">
+  <a class="logo" href="#top" onclick="leaveDashboard()"><small>Plan</small>to Plate</a>
+  <div class="links"><a href="#recipes" onclick="leaveDashboard()">Recipes</a><a href="#dashboard" id="dashlink" class="hide" onclick="showDashboard();return false">My dashboard</a><a href="#about" onclick="leaveDashboard()">About</a><a href="#quick" onclick="leaveDashboard()">Quick meals</a><a href="#contact" onclick="leaveDashboard()">Contact</a></div>
+  <div class="sp"><input id="q" type="search" placeholder="Ingredient, dish…" aria-label="Search recipes" oninput="shown=6;render()"></div>
+  <button id="thm" class="btn g" onclick="theme()" aria-label="Toggle theme">Dark</button><button class="btn" id="addb" onclick="addClick()">＋ Add recipe</button><button id="who" onclick="logout()"></button>
+</nav>
+<main id="top">
+<section class="hh">
+  <div><h1>Plan the week, <em>plate it well</em> 🍽️</h1><p>Find recipes you will actually cook, share your own and keep your favourites in one place.</p>
+  <div class="row"><button class="btn" onclick="location.hash='recipes'">Explore recipes</button><button class="btn g" onclick="addClick()">Add your recipe</button><button class="btn g" onclick="surprise()">🎲 Surprise me</button></div><div class="stats"><span><b id="total-recipes">13</b>dishes</span><span><b id="veg-recipes">11</b>vegetarian</span><span><b id="total-categories">7</b>categories</span></div></div>
+  <div class="collage" aria-hidden="true"><div data-w="Pizza_Margherita">🍕</div><div data-w="Butter_chicken">🍛</div><div data-w="Chocolate_brownie">🍫</div></div>
+</section>
+<section id="dashboard" class="dash hide" aria-labelledby="dash-title">
+  <div class="dash-head"><div><p class="dash-kicker">YOUR PLAN TO PLATE</p><h1 id="dash-title">My kitchen</h1><p id="dash-welcome">A home for the recipes you make and love.</p></div><button class="btn" onclick="leaveDashboard();addClick()">＋ Add a recipe</button></div>
+  <div class="dash-stats">
+    <article><span class="dash-icon">01</span><div><b id="dash-recipe-count">0</b><small>My recipes</small></div></article>
+    <article><span class="dash-icon">♥</span><div><b id="dash-favorite-count">0</b><small>Favourites</small></div></article>
+    <article><span class="dash-icon">30′</span><div><b id="dash-quick-count">0</b><small>Ready in 30 min</small></div></article>
+  </div>
+  <div class="dash-columns">
+    <section class="dash-panel"><div class="dash-panel-head"><div><h2>Recipes you shared</h2><p>Your personal recipe collection.</p></div><button class="text-button" onclick="leaveDashboard();setCat('My recipes');location.hash='recipes'">Browse all</button></div><div id="dash-mine" class="dash-grid"></div></section>
+    <section class="dash-panel"><div class="dash-panel-head"><div><h2>Your favourites</h2><p>Recipes you have saved with the heart.</p></div><button class="text-button" onclick="leaveDashboard();setCat('♥ Liked');location.hash='recipes'">Browse all</button></div><div id="dash-faves" class="dash-grid"></div></section>
+  </div>
+  <div class="dash-tip"><span>PLAN</span><p><b>Plan something delicious.</b> Find an easy meal or save a new favourite from the recipe collection.</p><button class="btn g" onclick="leaveDashboard();location.hash='recipes'">Explore recipes →</button></div>
+</section>
+<div class="strip-w" aria-label="Featured dishes"><div class="strip" id="strip"></div></div>
+<section>
+  <h2 class="sec-h">Browse by category</h2>
+  <div class="tiles">
+    <button class="tile" onclick="goCat('Breakfast')"><span>🍳</span>Breakfast</button><button class="tile" onclick="goCat('Salad')"><span>🥗</span>Salad</button><button class="tile" onclick="goCat('Soup')"><span>🍲</span>Soup</button><button class="tile" onclick="goCat('Main')"><span>🍝</span>Main</button><button class="tile" onclick="goCat('Indian')"><span>🍛</span>Indian</button><button class="tile" onclick="goCat('Dessert')"><span>🍰</span>Dessert</button><button class="tile" onclick="goCat('Drinks')"><span>🥤</span>Drinks</button>
+  </div>
+</section>
+<section id="recipes">
+  <h2 class="sec-h">Recipes <small id="count"></small></h2>
+  <div class="cats" id="cats"></div>
+  <div class="tools"><button id="tv" onclick="vegOnly=!vegOnly;this.classList.toggle('on',vegOnly);shown=6;render()">🟢 Veg only</button><button id="tq" onclick="quickOnly=!quickOnly;this.classList.toggle('on',quickOnly);shown=6;render()">⚡ Under 30 min</button><select id="so" onchange="shown=6;render()" aria-label="Sort"><option value="">Sort: Featured</option><option value="t">Quickest first</option><option value="k">Lightest first</option></select></div>
+  <div class="grid" id="grid"></div>
+  <button class="btn more" id="more" onclick="shown+=6;render()">Load more recipes</button>
+</section>
+<section id="about">
+  <h2 class="sec-h">How Plan to Plate works</h2>
+  <div class="steps">
+    <div class="step"><b>1</b><h3>Plan</h3><p>Browse by category or search by the ingredients you already have.</p></div>
+    <div class="step"><b>2</b><h3>Share</h3><p>Log in and add your own recipes with photos, ingredients and steps.</p></div>
+    <div class="step"><b>3</b><h3>Plate</h3><p>Open a recipe, follow the steps and save the ones you love.</p></div>
+  </div>
+  <p class="notep">Recipes are kept by registered users and update when recipes are added, edited or deleted.</p>
+</section>
+<section><h2 class="sec-h">Ready in 20 minutes or less</h2><div id="quick"></div></section>
+</main>
+<footer class="ft" id="contact"><div class="in">
+  <div class="hd"><a class="logo" href="#top"><small>Plan</small>to Plate</a><div class="soc" aria-hidden="true"><span>f</span><span>◎</span><span>♪</span></div></div>
+  <div class="nl"><h2>Don’t miss out!</h2><p>Get the latest recipes, tips and more in your inbox.</p>
+    <div class="nl-f" style="display:flex;gap:12px;align-items:end"><input id="nl" type="email" placeholder="Email" aria-label="Email"><button class="btn" onclick="subscribe()">Subscribe</button></div></div>
+  <div class="cols"><div><b>Cooking</b><a href="#recipes">Recipes</a><a href="#quick">Quick meals</a><a href="#about">How it works</a></div>
+    <div><b>Account</b><a href="#" onclick="addClick();return false">Add a recipe</a><a href="#" onclick="logout();return false">Sign in</a><a href="#" onclick="logout();return false">Sign up</a></div>
+    <div><b>Company</b><a href="#about">About</a><a href="#contact">Contact</a><a href="#about">FAQ</a></div></div>
+  <div class="cp"><span>©2026 Plan to Plate</span><span>Privacy · Sitemap · Terms of Use</span></div>
+</div></footer>
+</div>
+
+<div id="modal" class="mo hide" onclick="if(event.target===this)closeM()"><div class="md" id="md"></div></div>
+<div id="toast"></div>
+
+<script src="js/images.js"></script>
+<script src="js/app.js"></script>
+<script src="js/details.js"></script>
+<script src="js/extras.js"></script>
+<script src="js/login-and-effects.js"></script>
+</body>
+</html>

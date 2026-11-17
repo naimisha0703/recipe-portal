@@ -1,0 +1,1 @@
+{ "name": "plan-to-plate", "version": "1.0.0", "description": "Recipe website with a small Node API", "main": "server.js", "scripts": { "start": "node server.js" }, "engines": { "node": ">=18" } }

@@ -1,6 +1,0 @@
-.git
-.vercel
-.env
-.env.*
-vendor/
-node_modules/

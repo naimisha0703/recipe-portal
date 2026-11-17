@@ -2,6 +2,8 @@
 .env.*
 !.env.example
 .vercel
-vendor/
 node_modules/
+backend/data/users.json
+backend/data/favorites.json
+backend/data/user-recipes.json
 *.log

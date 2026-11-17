@@ -1,20 +1,28 @@
-# Recipe Sharing Portal
+# Plan to Plate
 
-A PHP and MySQL recipe sharing app. The included `schema.sql` creates the database, tables, and starter recipes.
+## Project layout
 
-## Run locally with XAMPP
+- `frontend/` contains the static recipe website.
+- `backend/` contains the optional zero-dependency Node.js API and JSON data.
+- `vercel.json` publishes the static frontend from `frontend/`.
 
-1. Copy this folder into XAMPP's `htdocs` directory.
-2. Start Apache and MySQL in the XAMPP Control Panel.
-3. Import `schema.sql` using phpMyAdmin.
-4. Open `http://localhost/recipe-portal/`.
+## Run locally
 
-The local database defaults are `localhost`, database `recipe_portal`, user `root`, and an empty password. Hosted environments can set `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` instead. See `.env.example` for the variable names; do not commit real credentials.
+Install Node.js 18 or newer, then run:
 
-## Deploy to Vercel
+```sh
+cd backend
+node server.js
+```
 
-`Dockerfile.vercel` packages PHP with FrankenPHP for Vercel's container runtime. A hosted MySQL-compatible server is still required. You can set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASS` in Vercel, or connect the TiDB Cloud integration, which provides `TIDB_HOST`, `TIDB_PORT`, `TIDB_USER`, `TIDB_PASSWORD`, and `TIDB_DATABASE`. The app enables TLS certificate verification when TiDB variables are present. Import `schema.sql` into that database. The schema also creates the `app_sessions` table used to share login sessions across instances.
+Open `http://localhost:3000`. The demo account is `chef` / `chef123`.
 
-Vercel container instances are stateless, so the app stores PHP sessions in the configured MySQL database rather than on local disk.
+## Personal dashboard
 
-See [Deploy PHP on Vercel with Docker](https://vercel.com/kb/guide/deploy-php-on-vercel-with-docker) for the current deployment flow.
+Sign in or register, then choose **My dashboard** in the navigation. It shows your recipes, saved favourites, and quick recipes. Recipe ownership and favourites are stored in this browser's local storage, so they do not sync across devices.
+
+## Deployment
+
+Vercel serves the static frontend. The optional JSON API in `backend/` is not connected to the deployed frontend; shared accounts and server-side persistence need a hosted database and API deployment.
+
+The original photo bundle was not included in the supplied Markdown code export, so `frontend/js/images.js` provides lightweight local plate illustrations instead of broken image references.
